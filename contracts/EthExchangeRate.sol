@@ -12,6 +12,7 @@ contract Medianizer {
  * @title Eth exchange rate
  * @notice Taken from mplewis's https://github.com/mplewis/leweycoin
  * @dev Use Maker's Medianizer oracle for an external reference price of eth to usd
+ * found at https://developer.makerdao.com/feeds/
  */
 contract EthExchangeRate {
     using SafeMath for uint;
@@ -28,5 +29,15 @@ contract EthExchangeRate {
         require(feedValid);
 
         return uint(rawOracleValue);
+    }
+
+    function usdToWei(uint usd) public view returns (uint, bool) {
+        uint ethPriceInUsdTimesWei = ethPriceFromMakerDaoOracle();
+        if (ethPriceInUsdTimesWei == 0) {
+            return(0, false);
+        }
+
+        uint result = usd.mul(weiPerEth).mul(weiPerEth).div(ethPriceInUsdTimesWei);
+        return (result, true);
     }
 }
