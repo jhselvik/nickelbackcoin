@@ -3,6 +3,7 @@ pragma solidity ^0.4.18;
 
 import '../node_modules/zeppelin-solidity/contracts/ownership/Ownable.sol';
 import '../node_modules/zeppelin-solidity/contracts/token/ERC20/StandardToken.sol';
+import './EthExchangeRate.sol';
 
 
 /**
@@ -10,7 +11,7 @@ import '../node_modules/zeppelin-solidity/contracts/token/ERC20/StandardToken.so
  * @dev An ERC20 Token, all tokens are pre-assigned to the creator. Note they can later
  * distribute these tokens as they wish using `transfer` and other `StandardToken` functions.
  */
-contract NickelbackCoin is Ownable, StandardToken {
+contract NickelbackCoin is Ownable, StandardToken, EthExchangeRate {
     string public constant NAME = "Nickelback Coin";
     string public constant SYMBOL = "NBC5";
     uint8 public constant DECIMALS = 0; // Not divisible
@@ -60,5 +61,22 @@ contract NickelbackCoin is Ownable, StandardToken {
         Transfer(msg.sender, _to, _value);
 
         return true;
+    }
+
+    /**
+    * @
+    */
+    function withdraw() public {
+        address recipient = msg.sender;
+        uint coinsToWithdraw = balances[recipient];
+
+        uint weiToPayout;
+        bool success;
+        (weiToPayout, success) = usdToWei(coinsToWithdraw);
+        require(success);
+        require(this.balance >= weiToPayout);
+
+        balances[recipient] = 0;
+        recipient.transfer(weiToPayout);
     }
 }

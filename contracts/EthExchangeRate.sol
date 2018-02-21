@@ -31,6 +31,7 @@ contract EthExchangeRate {
         return uint(rawOracleValue);
     }
 
+    // todo: start
     function usdToWei(uint usd) public view returns (uint, bool) {
         uint ethPriceInUsdTimesWei = ethPriceFromMakerDaoOracle();
         if (ethPriceInUsdTimesWei == 0) {
