@@ -16,9 +16,9 @@ contract NickelbackCoin is Ownable, StandardToken, EthExchangeRate {
     string public constant SYMBOL = "NBC5";
     uint8 public constant DECIMALS = 0; // Not divisible
 
-    uint256 public constant INITIAL_SUPPLY = 400;
+    uint256 public constant INITIAL_SUPPLY = 400; // $20 worth
 
-    uint256 public totalSupply_;
+    uint256 public totalSupply;
     mapping(address => uint256) balances;
 
     event Transfer(address indexed from, address indexed to, uint256 value);
@@ -27,7 +27,7 @@ contract NickelbackCoin is Ownable, StandardToken, EthExchangeRate {
     * @dev Constructor that gives msg.sender all of existing tokens.
     */
     function NickelbackCoin() public {
-        totalSupply_ = INITIAL_SUPPLY; // $20 worth
+        totalSupply = INITIAL_SUPPLY;
         balances[msg.sender] = INITIAL_SUPPLY;
         Transfer(0x0, msg.sender, INITIAL_SUPPLY);
     }
@@ -36,7 +36,7 @@ contract NickelbackCoin is Ownable, StandardToken, EthExchangeRate {
     * @dev total number of tokens in existence
     */
     function totalSupply() public view returns (uint256) {
-        return totalSupply_;
+        return totalSupply;
     }
 
     /**
@@ -64,11 +64,21 @@ contract NickelbackCoin is Ownable, StandardToken, EthExchangeRate {
     }
 
     /**
-    * @
+     * @notice returns balance of address's NBC5
+     * @dev use for testing
+     */
+    function balanceFor(address _recipient) public view returns(uint) {
+        return balances[_recipient];
+    }
+
+    /**
+    * @notice Wihdraw NBC5 from account
     */
     function withdraw() public {
         address recipient = msg.sender;
         uint coinsToWithdraw = balances[recipient];
+
+        // require(coinsToWithdraw != 0);
 
         uint weiToPayout;
         bool success;

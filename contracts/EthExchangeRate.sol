@@ -19,6 +19,11 @@ contract EthExchangeRate {
 
     uint weiPerEth = 1000000000000000000;
 
+    /**
+     * @notice Receives Eth price from oracle contract
+     * @dev Sends a message to the MakerDao contract, mock for testing
+     * @return a uint for exchange rate
+     */
     function ethPriceFromMakerDaoOracle() public view returns (uint) {
         address makerDaoEthPriceFeedAddress = 0x729D19f657BD0614b4985Cf1D82531c67569197B;
         Medianizer makerDaoEthPriceFeed = Medianizer(makerDaoEthPriceFeedAddress);
@@ -31,14 +36,18 @@ contract EthExchangeRate {
         return uint(rawOracleValue);
     }
 
-    // todo: start
-    function usdToWei(uint usd) public view returns (uint, bool) {
+    /**
+     * @notice Converts USD to Wei with exchange rate from the Maker Dao
+     * @param _usd USD to convert to Wei
+     * @return a uint for Wei and a bool for if successful
+     */
+    function usdToWei(uint _usd) public view returns (uint, bool) {
         uint ethPriceInUsdTimesWei = ethPriceFromMakerDaoOracle();
         if (ethPriceInUsdTimesWei == 0) {
             return(0, false);
         }
 
-        uint result = usd.mul(weiPerEth).mul(weiPerEth).div(ethPriceInUsdTimesWei);
+        uint result = _usd.mul(weiPerEth).mul(weiPerEth).div(ethPriceInUsdTimesWei);
         return (result, true);
     }
 }
