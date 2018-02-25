@@ -21,6 +21,7 @@
   },
   "homepage": "https://github.com/jhselvik/nickelbackcoin#readme",
   "dependencies": {
+    "mocha": "^5.0.1",
     "zeppelin-solidity": "1.6.0"
   }
 }
