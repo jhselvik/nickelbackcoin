@@ -13,6 +13,7 @@ contract("NickelbackCoin", accounts => {
   });
 
   it("has a name", async function() {
+    // don't need to use .call when a function is marked as constant
     const name = await nbc.NAME();
     assert.equal(name, "Nickelback Coin");
   });
@@ -25,38 +26,23 @@ contract("NickelbackCoin", accounts => {
     assert(decimals.eq(0));
   });
 
-  it("assigns the initial total supply to the creator", async function() {
-    const initialSupply = await nbc.INITIAL_SUPPLY();
-    const creatorBalance = await nbc.balanceOf(creator);
-    const totalSupply = await nbc.totalSupply();
-
-    assert(creatorBalance.eq(initialSupply));
-    assert(totalSupply.eq(creatorBalance));
-  });
-
-  describe("funding the contract", function() {
+  describe("minting initial tokens", function() {
     beforeEach(async function() {
-      // Fails - all sendTransaction's tx exit with error
-      await nbc.sendTransaction({
-        from: donor,
-        value: web3.toWei("0.1", "ether")
-      });
+      // call(creator, 400) returns bool, but no event or value
+      // if the function being executed in the transaction has a return value,
+      // you will not get that return value inside this result. You must instead
+      // use an event and look up the result in the logs array.
+      let success = await nbc.mint(creator, 400); // returns tx, not value.
+      console.log(success);
     });
 
-    console.log("hello");
-
-    it("does not change user balances", async function() {
-      console.log("1");
-      let creatorBalance = await nbc["balanceOf"](creator).toNumber();
+    it("creator has minted tokens", async function() {
+      // call balanceOf() without creating a transaction by explicitly using .call
+      // use for getters, setters will want a tx
+      // await nbc["balanceOf"](creator); also seems to work
+      let creatorBigNumber = await nbc.balanceOf.call(creator);
+      let creatorBalance = await creatorBigNumber.toNumber();
       assert.equal(creatorBalance, 400);
-
-      console.log("2");
-      let userBalance = await nbc["balanceOf"](user).toNumber();
-      assert.equal(userBalance, 0);
-
-      console.log("3");
-      let donorBalance = await nbc["balanceOf"](donor).toNumber();
-      console.log(donorBalance);
     });
   });
 });
