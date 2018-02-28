@@ -36,8 +36,15 @@ contract NickelbackCoin is Ownable, MintableToken, EthExchangeRate {
     }
 
     // start
-    function buyNickelbackToken() {
+    function buyNickelbackToken() public payable returns (uint256) {
+        uint256 weiAmount = msg.value;
+        uint usdToEth = ethPriceFromMakerDaoOracle();
 
+        uint nbc5 = weiAmount*usdToEth*(20/1);
+
+        balances[msg.sender] = nbc5;
+
+        return nbc5;
     }
 
     // function sellNickelbackToken(_amount uint256)

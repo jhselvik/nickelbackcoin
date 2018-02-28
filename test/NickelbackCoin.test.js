@@ -45,4 +45,19 @@ contract("NickelbackCoin", accounts => {
       assert.equal(creatorBalance, 400);
     });
   });
+
+  describe("buy tokens", function() {
+    beforeEach(async function() {
+      await nbc.buyNickelbackToken({
+        from: user,
+        value: web3.toWei(0.5, "ether")
+      });
+    });
+
+    it("user has nbc", async function() {
+      let userBigNumber = await nbc.balanceOf.call(user);
+      let userBalance = await userBigNumber.toNumber();
+      console.log(userBalance);
+    });
+  });
 });
