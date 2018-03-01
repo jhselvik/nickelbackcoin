@@ -1,5 +1,5 @@
 // request a usable contract abstraction for a specific Solidity contract
-const NickelbackCoin = artifacts.require("NickelbackCoin");
+const NickelbackCoin = artifacts.require("NickelbackCoinMock");
 
 // before each contract() function, your contracts are redeployed to the running Ethereum
 // client so the tests within it run with a clean contract state
@@ -47,10 +47,16 @@ contract("NickelbackCoin", accounts => {
   });
 
   describe("buy tokens", function() {
+    // set ethPriceInUsdTimesWei for usdToWei
+    beforeEach(async function() {
+      await nbc.setNewExchangeRate(2500 * ETH);
+    });
+
+    // buy 1 eth of nbc5
     beforeEach(async function() {
       await nbc.buyNickelbackToken({
         from: user,
-        value: web3.toWei(0.5, "ether")
+        value: web3.toWei(1, "ether")
       });
     });
 

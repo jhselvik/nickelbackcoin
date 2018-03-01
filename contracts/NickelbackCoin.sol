@@ -1,6 +1,7 @@
 pragma solidity ^0.4.18;
 
 
+import '../node_modules/zeppelin-solidity/contracts/math/SafeMath.sol';
 import '../node_modules/zeppelin-solidity/contracts/ownership/Ownable.sol';
 import '../node_modules/zeppelin-solidity/contracts/token/ERC20/MintableToken.sol';
 import './EthExchangeRate.sol';
@@ -12,6 +13,8 @@ import './EthExchangeRate.sol';
  * distribute these tokens as they wish using `transfer` and other `StandardToken` functions.
  */
 contract NickelbackCoin is Ownable, MintableToken, EthExchangeRate {
+    using SafeMath for uint;
+
     string public constant NAME = "Nickelback Coin";
     string public constant SYMBOL = "NBC5";
     uint8 public constant DECIMALS = 0; // Not divisible
@@ -30,18 +33,23 @@ contract NickelbackCoin is Ownable, MintableToken, EthExchangeRate {
 
     /**
     * @dev total number of tokens in existence
+    * @return a uint for total existing Nickelback Coins
     */
     function totalSupply() public view returns (uint256) {
         return totalSupply;
     }
 
-    // start
+    /**
+     * @notice For current eth to usd rate get a coin for each 5 cents of eth
+     * @return a uint for number of Nickelback Coins purchased
+     */
     function buyNickelbackToken() public payable returns (uint256) {
+        require(msg.value > 0);
+        
         uint256 weiAmount = msg.value;
-        uint usdToEth = ethPriceFromMakerDaoOracle();
+        uint ethPriceInUsdTimesWei = ethPriceFromMakerDaoOracle();
 
-        uint nbc5 = weiAmount*usdToEth*(20/1);
-
+        uint nbc5 = weiAmount.mul(ethPriceInUsdTimesWei).mul(20);
         balances[msg.sender] = nbc5;
 
         return nbc5;
