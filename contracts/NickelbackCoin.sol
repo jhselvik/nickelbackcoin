@@ -47,12 +47,14 @@ contract NickelbackCoin is Ownable, MintableToken, EthExchangeRate {
         require(msg.value > 0);
 
         uint256 weiAmount = msg.value;
+        uint256 ethAmount = weiAmount.div(1 ether);
+
         uint256 ethPriceInUsdTimesWei = ethPriceFromMakerDaoOracle();
+        uint256 nbc5Amount = ethAmount.mul(ethPriceInUsdTimesWei).mul(20);
 
-        uint256 nbc5 = weiAmount.div(1 ether).mul(ethPriceInUsdTimesWei).mul(20);
-        balances[msg.sender] = nbc5;
+        balances[msg.sender] = nbc5Amount;
 
-        return nbc5;
+        return nbc5Amount;
     }
 
     // function sellNickelbackToken(uint256 _amount) public {
