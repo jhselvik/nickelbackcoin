@@ -47,9 +47,9 @@ contract("NickelbackCoin", accounts => {
   });
 
   describe("buy tokens", function() {
-    // set ethPriceInUsdTimesWei for usdToWei
+    // set ethPriceInUsdTimesWei for usdToWei, 800 usd to eth
     beforeEach(async function() {
-      await nbc.setNewExchangeRate(2500 * ETH);
+      await nbc.setNewExchangeRate(800 * ETH);
     });
 
     // buy 1 eth of nbc5
@@ -64,6 +64,12 @@ contract("NickelbackCoin", accounts => {
       let userBigNumber = await nbc.balanceOf.call(user);
       let userBalance = await userBigNumber.toNumber();
       console.log(userBalance);
+      assert.notEqual(userBalance, 0);
+    });
+
+    it("total supply is recorded", async function() {
+      let totalSupply = await nbc.totalSupply.call();
+      assert.notEqual(totalSupply.toNumber(), 0);
     });
   });
 });

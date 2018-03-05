@@ -41,6 +41,7 @@ contract NickelbackCoin is Ownable, MintableToken, EthExchangeRate {
 
     /**
      * @notice For current usd to eth rate, get a coin for each 5 cents of eth
+     * @dev This function and its math needs to be simplified to avoid fees
      * @return a uint for number of Nickelback Coins purchased
      */
     function buyNickelbackToken() public payable returns (uint256) {
@@ -53,17 +54,8 @@ contract NickelbackCoin is Ownable, MintableToken, EthExchangeRate {
         uint256 nbc5Amount = ethAmount.mul(ethPriceInUsdTimesWei).mul(20);
 
         balances[msg.sender] = nbc5Amount;
+        totalSupply = totalSupply + nbc5Amount;
 
         return nbc5Amount;
     }
-
-    // function sellNickelbackToken(uint256 _amount) public {
-    //     require(_amount >= balances[msg.sender]);
-
-    //     uint ethPriceInUsdTimesWei = ethPriceFromMakerDaoOracle();
-    //     uint weiToReceive = _amount.div(20).div(ethPriceInUsdTimesWei)
-
-
-    // }
-
 }
