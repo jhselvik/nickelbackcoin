@@ -1,3 +1,5 @@
+var NickelbackCoin = artifacts.require("NickelbackCoin");
+
 module.exports = function(deployer) {
-  deployer.deploy(artifacts.require(`./NickelbackCoin.sol`));
+  deployer.deploy(NickelbackCoin);
 };
