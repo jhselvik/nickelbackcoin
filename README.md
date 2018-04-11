@@ -12,6 +12,11 @@ npm install vue-router --save
 npm install vuex --save
 npm install web3 --save
 
+npm install @vue/cli-service --save-dev
+npm install @vue/cli-plugin-eslint --save-dev
+npm install sass-loader node-sass --save-dev
+npm install @vue/eslint-config-standard --save-dev  // needed?
+
 ## Resources
 Vue knowledge from
 http://stackabuse.com/single-page-apps-with-vue-js-and-flask-setting-up-vue-js/
