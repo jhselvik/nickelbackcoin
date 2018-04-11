@@ -15,7 +15,12 @@ npm install web3 --save
 npm install @vue/cli-service --save-dev
 npm install @vue/cli-plugin-eslint --save-dev
 npm install sass-loader node-sass --save-dev
-npm install @vue/eslint-config-standard --save-dev  // needed?
+
+// needed?
+npm install @vue/eslint-config-standard --save-dev
+npm install babel-register --save-dev
+npm install @vue/cli-plugin-babel --save-dev
+npm install vue-template-compiler --save-dev
 
 ## Resources
 Vue knowledge from
