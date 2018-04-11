@@ -2,27 +2,13 @@
   "name": "nickelbackcoin",
   "version": "0.0.1",
   "private": true,
-  "description": "",
-  "main": "truffle.js",
-  "directories": {
-    "test": "test"
-  },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
     "serve": "vue-cli-service serve --open",
+    "build": "vue-cli-service build",
     "lint": "vue-cli-service lint"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/jhselvik/nickelbackcoin.git"
-  },
-  "keywords": [],
   "author": "Joe Selvik",
   "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/jhselvik/nickelbackcoin/issues"
-  },
-  "homepage": "https://github.com/jhselvik/nickelbackcoin#readme",
   "dependencies": {
     "mocha": "^5.0.1",
     "vue": "^2.5.16",
@@ -37,13 +23,6 @@
     "@vue/cli-service": "^3.0.0-beta.6",
     "@vue/eslint-config-standard": "^3.0.0-beta.6",
     "babel-register": "^6.26.0",
-    "eslint": "^4.19.1",
-    "eslint-config-standard": "^11.0.0",
-    "eslint-plugin-import": "^2.10.0",
-    "eslint-plugin-node": "^6.0.1",
-    "eslint-plugin-promise": "^3.7.0",
-    "eslint-plugin-standard": "^3.0.1",
-    "eslint-plugin-vue": "^4.4.0",
     "node-sass": "^4.8.3",
     "sass-loader": "^6.0.7",
     "vue-template-compiler": "^2.5.16"
@@ -52,5 +31,22 @@
     "presets": [
       "@vue/app"
     ]
-  }
+  },
+  "eslintConfig": {
+    "root": true,
+    "extends": [
+      "plugin:vue/essential",
+      "@vue/standard"
+    ]
+  },
+  "postcss": {
+    "plugins": {
+      "autoprefixer": {}
+    }
+  },
+  "browserslist": [
+    "> 1%",
+    "last 2 versions",
+    "not ie <= 8"
+  ]
 }

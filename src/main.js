@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import App from './App.vue'
-import router from './router/index'
-import store from './store/index'
+import router from './router'
+import store from './store'
 
 Vue.config.productionTip = false
 
@@ -13,8 +13,7 @@ Vue.config.productionTip = false
 // Hyperscript stands for "script that generates HTML structures"
 // render: h => h(App); Aliasing createElement to h
 // https://github.com/vuejs-templates/webpack-simple/issues/29#issuecomment-312902539
-new Vue({ // eslint-disable-line no-new
-  el: '#app',
+new Vue({
   router,
   store,
   render: h => h(App)
